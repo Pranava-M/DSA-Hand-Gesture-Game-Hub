@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎮 DSA Hand Gesture Game Hub</title>
+<style>
+body {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  text-align: center;
+  padding-top: 40px;
+}
+h1 {
+  font-size: 40px;
+  color: #00eaff;
+  text-shadow: 0 0 15px #00eaff;
+}
+#gesture {
+  background: #0e1525;
+  padding: 15px;
+  border-radius: 15px;
+  width: 40%;
+  margin: 20px auto;
+  font-size: 18px;
+  box-shadow: 0 0 15px #00eaff;
+}
+button {
+  background: #00eaff;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: #00c3ff;
+  transform: scale(1.1);
+}
+#result {
+  margin-top: 30px;
+  background: #0e1525;
+  border-radius: 15px;
+  padding: 15px;
+  width: 50%;
+  margin: 20px auto;
+  font-size: 20px;
+  box-shadow: 0 0 10px #00eaff;
+}
+.instructions {
+  width: 50%;
+  margin: 20px auto;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<h1>DSA Hand Gesture Game Hub</h1>
+<div class="instructions">
+  <strong>🎮 How to Play Rock–Paper–Scissors:</strong><br>
+  🪨 Rock = ✊ (All fingers closed)<br>
+  📄 Paper = ✋ (All fingers open)<br>
+  ✂️ Scissors = ✌️ (Two fingers up)<br>
+  Keep your hand steady for 2–3 seconds in front of camera.
+</div>
+
+<div id="gesture">Gesture: None</div>
+<button onclick="play('rps')">🪨✋✂️ Play Rock–Paper–Scissors</button>
+
+<div id="result">Result will appear here...</div>
+
+<script>
+async function refreshGesture(){
+  const res = await fetch("/gesture");
+  const data = await res.json();
+  document.getElementById("gesture").innerText = "Gesture: " + data.gesture;
+}
+setInterval(refreshGesture, 700);
+
+async function play(game){
+  const res = await fetch("/" + game);
+  const data = await res.json();
+  document.getElementById("result").innerText =
+    "🤖 Computer: " + data.computer + "\n🖐️ You: " + data.you + "\n🏁 " + data.result;
+}
+</script>
+</body>
+</html>
